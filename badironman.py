@@ -4,6 +4,8 @@ from tkinter import *
 import cv2
 import imutils
 import sys
+import numpy as np
+import asyncio
 
 # open cv variables
 frameWidth = 1000
@@ -50,21 +52,32 @@ def home(event):
 
 # image processing loop to look for hands
 
+
+
 # main while loop
 while camera.isOpened(): 
     success, img = camera.read()
     greyImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     hands = handCascade.detectMultiScale(greyImg, 1.1, 4)
-    for (x, y, w, h) in hands:
-        cv2.rectangle(img, (x,y), (x + w, y + h), (0, 255, 0), 2)
-        motion(x, y)                
-        cv2.imshow("Result", img)
-    time.sleep(0.015)
+    i = 0
+    if (str(hands) != "()"):
+        hand = hands[0]
+        for i in hand:
+            (x, y, w, h) = hand
+            cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            motion(x, y)
+    cv2.imshow("Result", img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
+        camera.release()
+        cv2.destroyAllWindows()
         break
+        
 
 camera.release()
-cv2.destroyAllWindows()
+sys.exit(1)
+cv2.destroyAllWindows()        
+        
+
 
             
             
