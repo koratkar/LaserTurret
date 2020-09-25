@@ -18,24 +18,25 @@ def writeToPort(coords):
             ser.write(coords)
         except:
             ser.close()
-            window.unbind('<Motion>')
             ser.open()
-            window.bind('<Motion>', motion)
+            print('ah fuck')
+            print(coords)
 
 def motion(event):
-    x, y = event.x, event.y
-    if x > 0 and y > 0:
+    stopTime = time.time()
+    if stopTime % 0.000005 == 0:
+        x, y = event.x, event.y
         nX = round(180 - x / (600 / 180))
         nY = round(180 - y / (600 / 180))
-        time.sleep(0.015)
         mouseCoords = bytes(("X" + str(nX) + "Y" + str(nY)), encoding='utf-8')
         writeToPort(mouseCoords)
+        print(stopTime)
 
-def home(event):
-    coords = bytes(("X90Y30"), encoding='utf-8') 
-    writeToPort(coords)
+
+stopTime = 0
 
 window.bind('<Motion>', motion)
-ser.close()
-ser.open()
 window.mainloop()
+
+
+
