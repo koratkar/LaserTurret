@@ -39,12 +39,11 @@ def writeToPort(coords):
 def motion(x, y):
     nX = round(180 - x / (1000 / 180))
     nY = round(180 - y / (1000 / 180))
-    if x > 0 and y > 0 and ser.isOpen:
-        try:
-            mouseCoords = bytes(("X" + str(nX) + "Y" + str(nY)), encoding='utf-8')
-            writeToPort(mouseCoords)
-        except:
-            print("fuck")
+    try:
+        mouseCoords = bytes(("X" + str(nX) + "Y" + str(nY)), encoding='utf-8')
+        writeToPort(mouseCoords)
+    except:
+        print("fuck")
 
 def home(event):
     coords = bytes(("X90Y30"), encoding='utf-8') 
