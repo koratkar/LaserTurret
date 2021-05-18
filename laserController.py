@@ -32,7 +32,6 @@ def motion(event):
         writeToPort(mouseCoords)
         print(stopTime)
 
-
 stopTime = 0
 
 window.bind('<Motion>', motion)
